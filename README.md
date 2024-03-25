@@ -107,7 +107,7 @@ bash
 
 ## Related Project
 
-⚡[Backend Blanja](https://github.com/ChanraSB/be-blanja-team)⚡
+⚡[Backend Blanja](https://github.com/HizkiaP/be-blanja-team)⚡
 
 ⚡[Frontend Blanja](https://github.com/ChanraSB/fe-blanja-team)⚡
 
