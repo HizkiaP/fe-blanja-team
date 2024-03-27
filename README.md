@@ -113,6 +113,6 @@ bash
 
 ⚡[Backend Blanja](https://github.com/HizkiaP/be-blanja-team)⚡
 
-⚡[Frontend Blanja](https://github.com/ChanraSB/fe-blanja-team)⚡
+⚡[Frontend Blanja](https://github.com/HizkiaP/fe-blanja-team)⚡
 
 ⚡[Demo Blanja](https://fe-blanja-team.vercel.app/)⚡
