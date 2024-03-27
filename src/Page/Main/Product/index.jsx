@@ -106,7 +106,7 @@ const Product = () => {
                   <h1>Rp. {product?.price}</h1>
                 </div>
 
-                <div className="color mt-4">
+                {/* <div className="color mt-4">
                   <p className="my-0">Color</p>
                   <select
                     className="form-select"
@@ -117,16 +117,16 @@ const Product = () => {
                     <option value="2">Black</option>
                     <option value="3">Red</option>
                   </select>
-                </div>
+                </div> */}
 
                 <div className="size mt-4 d-flex" id="amount">
-                  <div
+                  {/* <div
                     className="d-flex flex-column"
                     style={{ marginRight: "80px" }}
                   >
                     <p>Size</p>
                     <CountButton />
-                  </div>
+                  </div> */}
                   <div className="d-flex flex-column">
                     <p>Jumlah</p>
                     {/* <CountButton /> */}
@@ -150,12 +150,12 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="button d-flex mt-4">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-outline-dark me-2 flex-grow-3"
                   >
                     Chat
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => handleAddToCart(product)}
                     type="button"

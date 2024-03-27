@@ -34,7 +34,7 @@ const Category = () => {
         </div>
         <div
           className="d-flex flex-wrap row-gap-4 gap-3 mb-5 mt-3"
-          style={{ height: "136px" }}
+         
         >
           <div className="d-flex flex-wrap row-gap-4 gap-3 mb-5 mt-3 ">
             {productList.map((product) => (

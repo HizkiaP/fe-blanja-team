@@ -262,7 +262,7 @@ const RegisterSeller = () => {
                         width: "400px",
                       }}
                     ></Button>
-                    <p className="mt-4">
+                    <p className="mt-4 mb-5">
                       <Link to="/login" className="acc">
                         Already have a account?
                         <span style={{ color: "#DB3022" }}> Login</span>

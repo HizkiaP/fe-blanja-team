@@ -4,7 +4,6 @@ import "./sellingProduct.css";
 import { createProduct } from "../../../../../config/redux/action/productAction";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
 
 const SellingProduct = () => {
   const [data, setData] = useState("");
@@ -13,9 +12,10 @@ const SellingProduct = () => {
   const [category, setCategory] = useState("");
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  // const [imageError, setImageError] = useState(false); // Add state variable for image upload error
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { loading } = useSelector((state) => state.product);
 
   // const id = localStorage.getItem("id");
@@ -43,7 +43,7 @@ const SellingProduct = () => {
   };
 
   const handleUpload = (e) => {
-    const MIN_FILE_SIZE = 1024; // 1MB
+    // const MIN_FILE_SIZE = 1024; // 1MB
     const MAX_FILE_SIZE = 5120; // 5MB
 
     const uploader = e.target.files[0];
@@ -51,62 +51,72 @@ const SellingProduct = () => {
     reader.onload = () => {
       setShowImage(reader.result);
     };
-    reader.readAsDataURL(uploader);
-    setSaveImage(e.target.files[0]);
-
-    if (!saveImage) {
-      setErrorMsg("Please choose a file");
-      return;
-    }
 
     const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    const fileSizeKiloBytes = uploader.size / 1024;
+
     if (!allowedTypes.includes(uploader?.type)) {
       setIsError(true);
-      setErrorMsg("Only JPEG, PNG, and GIF images are allowed.");
+      Swal.fire({
+        title: "Failed",
+        text: "Type File is not match",
+        icon: "error",
+      });
+
       return;
     }
 
-    const fileSizeKiloBytes = saveImage.size / 1024;
-
-    if (fileSizeKiloBytes < MIN_FILE_SIZE) {
-      setErrorMsg("File size is less than minimum limit");
-      return;
-    }
+    // if (fileSizeKiloBytes < MIN_FILE_SIZE) {
+    //   setIsError(true);
+    //   Swal.fire({
+    //     title: "Failed",
+    //     text: "File size is less than minimum limit",
+    //     icon: "error",
+    //   });
+    //   return;
+    // }
     if (fileSizeKiloBytes > MAX_FILE_SIZE) {
-      setErrorMsg("File size is greater than maximum limit");
+      setIsError(true);
+      Swal.fire({
+        title: "Failed",
+        text: "File size is less than minimum limit",
+        icon: "error",
+      });
       return;
     }
-
     setIsError(false);
+    reader.readAsDataURL(uploader);
+    setSaveImage(uploader);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createProduct(formData));
-      setData({
-        name: "",
-        price: "",
-        stock: "",
-        condition: "",
-        description: "",
-      });
-      setSaveImage(null);
-      setShowImage("");
-
-      if (!saveImage) {
-        setIsError(true);
-        setErrorMsg("Please select a file.");
+      if (isError) {
+        Swal.fire({
+          title: "Failed",
+          text: "Create Product Failed",
+          icon: "error",
+        });
       } else {
+        await dispatch(createProduct(formData));
+        setData({
+          name: "",
+          price: "",
+          stock: "",
+          condition: "",
+          description: "",
+        });
+        setSaveImage(null);
+        setShowImage("");
         Swal.fire({
           title: "Success",
           text: "Create Product Success",
           icon: "success",
         });
-        // navigate("/");
-        // clear all input
       }
-      setIsError(false);
+      // navigate("/");
+      // clear all input
     } catch (error) {
       Swal.fire({
         title: "Failed",
@@ -322,6 +332,7 @@ const SellingProduct = () => {
               className="btn btn-danger rounded-pill"
               type="button"
               onClick={handleSubmit}
+              // disabled={imageError}
             >
               {loading ? "Loading..." : "Jual"}
             </button>

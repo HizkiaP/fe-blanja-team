@@ -11,14 +11,14 @@ import {
   updateAddress,
 } from "../../../../config/redux/action/AddressAction";
 
-const ModalUpdateAddress = ({ addressId }) => {
+const ModalUpdateAddress = ({ item }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { loading } = useSelector((state) => state.address);
 
-  const [data, setData] = useState({
+  let [data, setData] = useState({
     address_type: "",
     name_recipient: "",
     phone: "",
@@ -29,8 +29,16 @@ const ModalUpdateAddress = ({ addressId }) => {
   });
 
   useEffect(() => {
-    dispatch(myAddress());
-  }, [dispatch]);
+    setData({
+      address_type: item.address_type,
+      name_recipient: item.name_recipient,
+      phone: item.phone,
+      street: item.street,
+      postal_code: item.postal_code,
+      city: item.city,
+      primary_address: false,
+    });
+  }, []);
 
   const handleChange = (e) => {
     setData({
@@ -43,13 +51,14 @@ const ModalUpdateAddress = ({ addressId }) => {
     e.preventDefault();
 
     try {
-      dispatch(updateAddress(addressId, data));
+      await dispatch(updateAddress(item.id, data));
       Swal.fire({
         title: "Success",
         text: "Update Address Success",
         icon: "success",
       });
       handleClose();
+      dispatch(myAddress());
     } catch (error) {
       Swal.fire({
         title: "Failed",
@@ -136,6 +145,6 @@ const ModalUpdateAddress = ({ addressId }) => {
 };
 
 ModalUpdateAddress.propTypes = {
-  addressId: propTypes.any,
+  item: propTypes.any,
 };
 export default ModalUpdateAddress;

@@ -169,7 +169,7 @@ const StoreProfile = () => {
                       style={{
                         backgroundColor: "#DB3022",
                         color: "#FFFFFF",
-                        marginLeft: "13rem",
+                        marginLeft: "9rem",
                         marginTop: "1rem",
                         width: "90px",
                       }}

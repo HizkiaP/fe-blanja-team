@@ -5,18 +5,21 @@ import Form from "react-bootstrap/Form";
 import propTypes from "prop-types";
 import { FaPen } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProduct } from "../../../../config/redux/action/productAction";
+import {
+  getMyProductBySellerId,
+  updateProduct,
+} from "../../../../config/redux/action/productAction";
 import Swal from "sweetalert2";
 
-const ModalUpdateProduct = ({ productId }) => {
+const ModalUpdateProduct = ({ item }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [saveImage, setSaveImage] = useState("");
-  const { loading, product } = useSelector((state) => state.product);
+  const { loading } = useSelector((state) => state.product);
 
-  const [data, setData] = useState({
+  let [data, setData] = useState({
     name: "",
     price: "",
     color: "",
@@ -28,23 +31,19 @@ const ModalUpdateProduct = ({ productId }) => {
     category_id: "",
   });
 
-  // useEffect(() => {
-  //   dispatch(getMyProductBySellerId(seller_id));
-  // }, [dispatch, seller_id]);
-
   useEffect(() => {
     setData({
-      name: product.name,
-      price: product.price,
-      color: product.color,
-      size: product.size,
-      stock: product.stock,
-      description: product.description,
-      image: product,
-      seller_id: product.seller_id,
-      category_id: product.category_id,
+      name: item.name,
+      price: item.price,
+      color: item.color,
+      size: item.size,
+      stock: item.stock,
+      description: item.description,
+      image: item.image,
+      seller_id: item.seller_id,
+      category_id: item.category_id,
     });
-  }, [product, saveImage]);
+  }, []);
   const handleChange = (e) => {
     setData({
       ...data,
@@ -72,13 +71,14 @@ const ModalUpdateProduct = ({ productId }) => {
     event.preventDefault();
 
     try {
-      dispatch(updateProduct(productId, formData));
+      await dispatch(updateProduct(item.id, formData));
       Swal.fire({
         title: "Success",
         text: "Update Product Success",
         icon: "success",
       });
       handleClose();
+      dispatch(getMyProductBySellerId(item.seller_id));
     } catch (error) {
       Swal.fire({
         title: "Failed",
@@ -87,7 +87,6 @@ const ModalUpdateProduct = ({ productId }) => {
       });
     }
   };
-  // console.log(item);
   return (
     <>
       <button
@@ -177,6 +176,6 @@ const ModalUpdateProduct = ({ productId }) => {
 };
 
 ModalUpdateProduct.propTypes = {
-  productId: propTypes.any,
+  item: propTypes.any,
 };
 export default ModalUpdateProduct;

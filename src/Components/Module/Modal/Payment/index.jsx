@@ -91,11 +91,11 @@ const Payment = ({ show, onHide, addressId, totalPrice, myBagList=[] }) => {
         <h5 style={{ fontWeight: 600, marginBottom: 20 }}>Shopping summary</h5>
         <div className="row ">
           <div className="col-9"><p style={{ color: "#9B9B9B" }}>Order</p></div>
-          <div className="col-3"><p style={{ fontWeight: 600 }}>Rp.10000000</p></div>
+          <div className="col-3"><p style={{ fontWeight: 600 }}>Rp.1.000.000</p></div>
         </div>
         <div className="row ">
           <div className="col-9"><p style={{ color: "#9B9B9B" }}>Delivery</p></div>
-          <div className="col-3"><p style={{ fontWeight: 600 }}>Rp.10000</p></div>
+          <div className="col-3"><p style={{ fontWeight: 600 }}>Rp. 5.000</p></div>
         </div>
         </div>
 
@@ -103,7 +103,7 @@ const Payment = ({ show, onHide, addressId, totalPrice, myBagList=[] }) => {
           <div className="row">
             <div className="col-7">
             <h5 style={{ fontWeight: 600 }}>Shopping summary</h5>
-            <h6 style={{ color: "#DB3022" }}>$ 1200000000</h6>
+            <h6 style={{ color: "#DB3022" }}>Rp. 1.005.000</h6>
             </div>
             <div className="col-5">
             <Button

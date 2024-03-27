@@ -21,7 +21,6 @@ const MyProduct = () => {
   const decoded = jwtDecode(token);
   const seller_id = decoded.id;
 
-
   useEffect(() => {
     dispatch(getMyProductBySellerId(seller_id));
   }, [dispatch, seller_id]);
@@ -171,7 +170,7 @@ const MyProduct = () => {
                                 <td className="text-center">{item.stock}</td>
 
                                 <td className="text-center">
-                                  <ModalUpdateProduct productId={item.id} />
+                                  <ModalUpdateProduct item={item} />
 
                                   <button
                                     type="button"
@@ -183,13 +182,11 @@ const MyProduct = () => {
                                 </td>
                               </tr>
                             ))
-                          ) 
-                          : (
+                          ) : (
                             <td colSpan="3" className="text-center">
                               No products.
                             </td>
-                          )
-                          }
+                          )}
                         </tbody>
                       </table>
                     </div>

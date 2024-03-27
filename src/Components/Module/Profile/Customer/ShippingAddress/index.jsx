@@ -6,16 +6,13 @@ import {
   deleteAddress,
   myAddress,
 } from "../../../../../config/redux/action/AddressAction";
-import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import ModalUpdateAddress from "../../../Modal/ModalUpdateAddress";
-const MySwal = withReactContent(Swal);
 
 const ShippingAddress = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  const [showSecondModal, setShowSecondModal] = useState(false);
+  const handleShowSecondModal = () => setShowSecondModal(true);
+  const handleCloseSecondModal = () => setShowSecondModal(false);
   const dispatch = useDispatch();
 
   const { addressList } = useSelector((state) => state.address);
@@ -24,22 +21,27 @@ const ShippingAddress = () => {
     dispatch(myAddress());
   }, [dispatch]);
 
-  const handleDeleteAddres = (id) => {
-    MySwal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this address!",
+  const handleDeleteAddres = async (id) => {
+    const result = await Swal.fire({
+      title: "Delete Product",
+      text: "Are you sure you want to delete this product?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, keep it",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(deleteAddress(id));
-        MySwal.fire("Deleted!", "Your address has been deleted.", "success");
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        MySwal.fire("Cancelled", "Your address is safe :)", "error");
-      }
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc3545",
     });
+
+    if (result?.isConfirmed) {
+      try {
+        await dispatch(deleteAddress(id));
+        Swal.fire("Deleted!", "Your product has been deleted.", "success");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    }
+    // navigate("/");
+    dispatch(myAddress());
   };
   return (
     <section className="bg-light" id="shippingAddress">
@@ -61,10 +63,13 @@ const ShippingAddress = () => {
                   textAlign: "center",
                   marginBottom: "40px",
                 }}
-                onClick={handleShow}
+                onClick={handleShowSecondModal}
               >
                 <span>Add New Address</span>
-                <AddANewModal showMe={show} onHideMe={handleClose} />
+                <AddANewModal
+                  showMe={showSecondModal}
+                  onHideMe={handleCloseSecondModal}
+                />
               </button>
             </div>
             <div className="row mt-3">
@@ -78,7 +83,7 @@ const ShippingAddress = () => {
                       <br />
                       <div className="position-relative">
                         <div className="position-absolute bottom-50 end-0">
-                          <ModalUpdateAddress addressId={item.id} />
+                          <ModalUpdateAddress item={item} />
                           <button
                             className="btn btn-danger"
                             onClick={() => {
